@@ -1,14 +1,17 @@
 import styled from 'styled-components'
 
 export const Wrapper = styled.div`
-background:linear-gradient(
+background-color: var(--darkGrey);
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;
+background-image:linear-gradient(
   to bottom, rgba(0,0,0,0)
   41%, rgba(0,0,0,0.65)
   100%
-),
-  url(${({ image }) => image}), var(--darkGrey);
-  background-size: 100% cover;
-  background-position: center;
+), url(${({ image }) => image});
+
+  
   height: 600px;
   position: relative;
   animation: animateHeroImage 1s;

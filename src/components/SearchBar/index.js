@@ -27,7 +27,7 @@ const SearchBar = ({ setSearchTerm }) => {
         <input
           type='text'
           placeholder='Search Movie'
-          onChange={event => setState(event.target.value)}
+          onChange={event => setState(event.currentTarget.value)}
           value={state}
         />
       </Content>

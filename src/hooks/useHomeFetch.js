@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, } from "react";
 import API from "../API";
 
 const initialState = {
@@ -13,6 +13,7 @@ export const useHomeFetch = () => {
   const [state, setState] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   console.log(searchTerm);
 
@@ -22,12 +23,14 @@ export const useHomeFetch = () => {
       setLoading(true);
 
       const movies = await API.fetchMovies(searchTerm, page);
-
-      setState(prev => ({
-        ...movies,
-        results:
-          page > 1 ? [...prev.movies, ...movies.results] : [...movies.results]
-      }));
+      console.log('prnitntng state b4 fetching movies:', state);
+      setState(prev => {
+        console.log(prev); return {
+          ...movies,
+          results:
+            page > 1 ? [...prev.results, ...movies.results] : [...movies.results]
+        }
+      });
     } catch (error) {
       setError(true);
     }
@@ -36,8 +39,18 @@ export const useHomeFetch = () => {
 
   //initial render
   useEffect(() => {
-    fetchMovies(1)
-  }, []);
+    setState(initialState)
+    fetchMovies(1, searchTerm)
+  }, [searchTerm,]);
 
-  return { state, loading, error, setSearchTerm };
+  //load more
+  useEffect(() => {
+    if (!isLoadingMore) return;
+    console.log('reloading started for more movies');
+    fetchMovies(state.page + 1, searchTerm);
+    setIsLoadingMore(false);
+
+  }, [isLoadingMore, searchTerm, state.page,]);
+
+  return { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore };
 }
