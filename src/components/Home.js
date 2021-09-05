@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-//api
-import API from '../API';
+import React, { } from "react";
+
 //config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from '../config';
 
@@ -22,7 +21,6 @@ const Home = () => {
 
   const { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore } = useHomeFetch();
 
-  console.log(state);
   if (error) return <div>Soemthing went wrong...</div>
   return (
     <>

@@ -1,5 +1,5 @@
 import React from "react";
-import { BACKDROP_SIZE, IMAGE_BASE_URL, POSTER_SIZE } from "../../config";
+import { IMAGE_BASE_URL, POSTER_SIZE } from "../../config";
 import { Content, Wrapper } from "./MovieInfo.styles";
 import Thumb from '../Thumb';
 import NoImage from '../../images/no_image.jpg'

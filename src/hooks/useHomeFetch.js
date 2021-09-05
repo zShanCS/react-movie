@@ -1,4 +1,4 @@
-import { useState, useEffect, } from "react";
+import { useState, useEffect, useCallback } from "react";
 import API from "../API";
 
 //helpers
@@ -19,15 +19,14 @@ export const useHomeFetch = () => {
 
   console.log(searchTerm);
 
-  const fetchMovies = async (page, searchTerm = '') => {
+  const fetchMovies = useCallback(async (page, searchTerm = '') => {
     try {
       setError(false);
       setLoading(true);
 
       const movies = await API.fetchMovies(searchTerm, page);
-      console.log('prnitntng state b4 fetching movies:', state);
       setState(prev => {
-        console.log(prev); return {
+        return {
           ...movies,
           results:
             page > 1 ? [...prev.results, ...movies.results] : [...movies.results]
@@ -37,7 +36,7 @@ export const useHomeFetch = () => {
       setError(true);
     }
     setLoading(false);
-  };
+  }, [])
 
   //search and initial render
   useEffect(() => {
@@ -53,7 +52,7 @@ export const useHomeFetch = () => {
 
     setState(initialState)
     fetchMovies(1, searchTerm)
-  }, [searchTerm,]);
+  }, [searchTerm, fetchMovies]);
 
   //load more
   useEffect(() => {
@@ -62,7 +61,7 @@ export const useHomeFetch = () => {
     fetchMovies(state.page + 1, searchTerm);
     setIsLoadingMore(false);
 
-  }, [isLoadingMore, searchTerm, state.page,]);
+  }, [isLoadingMore, searchTerm, state.page, fetchMovies]);
 
   //write to sessionStorage
   useEffect(() => {
