@@ -38,7 +38,7 @@ const Home = () => {
         {state.results.map(movie => (
           <Thumb key={movie.id}
             clickable
-            title={`${movie.title} (${movie.release_date.split('-')[0]})`}
+            title={`${movie.title} (${movie.release_date?.split('-')[0]})`}
             image={movie.poster_path ? IMAGE_BASE_URL + POSTER_SIZE + movie.poster_path : NoImage}
             movieId={movie.id} />
         ))}

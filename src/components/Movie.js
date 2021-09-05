@@ -18,7 +18,7 @@ const Movie = () => {
   if (error) return <div>Something went wrong</div>
   return (
     <>
-      <BreadCrumb movieTitle={`${movie.original_title} (${movie.release_date.split('-')[0]})`} />
+      <BreadCrumb movieTitle={`${movie.original_title} (${movie.release_date?.split('-')[0]})`} />
 
       <MovieInfo movie={movie} />
       <MovieInfoBar time={movie.runtime} budget={movie.budget} revenue={movie.revenue} />
