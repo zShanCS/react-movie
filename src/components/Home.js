@@ -1,5 +1,4 @@
-import React, { } from "react";
-
+import React, { useEffect } from "react";
 //config
 import { POSTER_SIZE, BACKDROP_SIZE, IMAGE_BASE_URL } from '../config';
 
@@ -20,8 +19,11 @@ import Thumb from "./Thumb";
 const Home = () => {
 
   const { state, loading, error, searchTerm, setSearchTerm, setIsLoadingMore } = useHomeFetch();
+  useEffect(() => {
+    document.title = 'zMovie | Home';
+  }, [])
 
-  if (error) return <div>Soemthing went wrong...</div>
+  if (error) return <div>Something went wrong</div>;
   return (
     <>
       {state.results[0] && !searchTerm ?

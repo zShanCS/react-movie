@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import API from "../API";
-import { isPersisterState } from '../helpers';
+import { isPersistedState } from '../helpers';
 const useMovieFetch = (movieId) => {
   const [state, setState] = useState({});
   const [loading, setLoading] = useState(true)
@@ -9,6 +9,9 @@ const useMovieFetch = (movieId) => {
   const fetchMovie = useCallback(async () => {
     try {
       const movie = await API.fetchMovie(movieId)
+      if (!movie.hasOwnProperty('id')) {
+        throw new Error(movie.status_message);
+      }
       const credits = await API.fetchCredits(movieId)
       const directors = credits.crew.filter(i => i.job === 'Director');
 
@@ -20,13 +23,15 @@ const useMovieFetch = (movieId) => {
       setLoading(false);
     }
     catch (e) {
-      console.log(e)
+      console.log(e);
       setError(true);
+      setLoading(false);
+
     }
   }, [movieId])
 
   useEffect(() => {
-    const sessionState = isPersisterState(movieId);
+    const sessionState = isPersistedState(movieId);
     if (sessionState) {
       setState(sessionState);
       setLoading(false);
@@ -38,7 +43,9 @@ const useMovieFetch = (movieId) => {
 
 
   useEffect(() => {
-    sessionStorage.setItem(movieId, JSON.stringify(state));
+    const movieData = JSON.stringify(state);
+    if (movieData === '{}') return;
+    sessionStorage.setItem(movieId, movieData);
   }, [movieId, state])
 
   return { state, loading, error };

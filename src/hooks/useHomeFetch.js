@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import API from "../API";
 
 //helpers
-import { isPersisterState } from "../helpers";
+import { isPersistedState } from "../helpers";
 const initialState = {
   page: 0,
   results: [],
@@ -42,7 +42,7 @@ export const useHomeFetch = () => {
   useEffect(() => {
 
     if (!searchTerm) {
-      const sessionState = isPersisterState('homeState')
+      const sessionState = isPersistedState('homeState')
       if (sessionState) {
         setState(sessionState)
         return;
